@@ -1,11 +1,13 @@
 
-# **LOCALISED 7.1 Pipeline**
+# **Manufacturing Decarbonization Risk Index: A Theoretical and Empirical Framework **
 
-This project includes a structured workflow divided into four pipelines for processing data related to exposure, vulnerability, response, and index calculation. Below is the detailed directory and file structure.
+This project is derived from the Work Package 7: End-user Solutions for Regional Businesses and Investors of the [LOCALISED Project](https://www.localised-project.eu/). LOCALISED is an HORIZON 2020 European-funded research project aimed at providing downscaled decarbonisation trajectories, consistent with Europe’s net-zero target.
 
 ---
 
 ## **Project Structure**
+
+This project includes a structured workflow divided into four pipelines for processing data related to exposure, vulnerability, response, and index calculation. Below is the detailed directory and file structure.
 
 ```
 Project/
