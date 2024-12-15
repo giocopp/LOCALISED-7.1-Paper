@@ -76,16 +76,23 @@ Below is the detailed workflow for scripting exposure maps using five key script
 
 ## **Workflow Diagram**
 ```
-Eurostat_Empl_Pers (Download & Filter Employment Data)
+**Eurostat_Empl_Pers** 
+(Download & Filter Employment Data)
     │
-    ├── Impute_Empl_Clean (Impute Missing Values with MICE)
-    │
-    ├── Empl_Shares (Calculate Employment Shares and Aggregate Sub-sectors)
-    │
-    ├── Eurostat_Emissions (Download, Filter, and Downscale Emissions Data)
-    │          └── Uses Empl Shares → Outputs Final Dataset
-    │
-    └── Exp_Map_RegEmis (Create Regional Emissions Exposure Maps)
+    └── **Impute_Empl_Clean** 
+(Impute Missing Values with MICE)
+                │
+                └── **Empl_Shares** 
+(Calculate Employment Shares and Aggregate Sub-sectors)
+                         │
+                         └── **Eurostat_Emissions**
+           (Download, Filter, and Downscale Emissions Data)
+                                    │
+                                    └── **Uses Empl Shares**
+                                    (Outputs Final Dataset)
+                                                │
+                                                └── **Exp_Map_RegEmis** 
+                                     (Create Regional Emissions Exposure Maps)
 ```
 
 ## **Inputs**
