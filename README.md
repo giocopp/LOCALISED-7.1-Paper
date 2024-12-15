@@ -11,7 +11,7 @@ This project includes a structured workflow divided into four pipelines for proc
 Project/
 │
 ├── Pipeline 1: EXPOSURE
-│   ├── run.R                      # Main R script for running the exposure pipeline
+│   ├── run.R                      # R script for running the exposure pipeline
 │   ├── targets.R                  # Script defining targets and steps
 │   ├── targets/                   # Directory for target-related files
 │   │   ├── ... (files)            
@@ -30,17 +30,17 @@ Project/
 │   │   ├── Excluded/              # Excluded or filtered-out data
 │   │   │   └── ... (files)
 │   │   │
-│   │   └── ... (other files)      
+│   │   └── ... (files)      
 │   │
 │
 ├── Pipeline 2: VULNERABILITY      # Next pipeline for assessing vulnerability
-│   └── ... (to be filled as needed)
+│   └── ... 
 │
 ├── Pipeline 3: RESPONSE           # Pipeline for response assessment
-│   └── ... (to be filled as needed)
+│   └── ... 
 │
 └── Pipeline 4: INDEX              # Pipeline for index calculations
-    └── ... (to be filled as needed)
+    └── ... 
 ```
 
 ---
@@ -50,47 +50,50 @@ Project/
 ### **Pipeline 1: Exposure**
 This pipeline processes base data and produces cleaned data and visual outputs related to exposure metrics.
 
-#### **Scripting Exposure Maps**  
+#### **Scripting Exposure Maps**
 
-Below is a high-level workflow for scripting exposure maps:
+Below is the detailed workflow for scripting exposure maps using five key scripts:
 
-1. **Data Preparation**:
-    - Import `Emissions_Data_Raw`
-        - Filter data for relevance.
+1. **Eurostat_Empl_Pers**:  
+   - Downloads and filters Eurostat employment data.
 
-2. **Data Cleaning**:
-    - `Update_Data_Clean`:
-        - Input cleaned files for further use.
+2. **Impute_Empl_Clean**:  
+   - Imputes missing values using the **MICE** (Multiple Imputation by Chained Equations) method.
 
-3. **Exposure Maps Creation**:
-    - **Equal_Raster_Top**: 
-        - Maps generation.
-    - **Equal_Raster_Base**: 
-        - Base maps for raster analysis.
+3. **Empl_Shares**:  
+   - Calculates employment shares.  
+   - Aggregates subsectors for analysis.
 
-4. **Final Adjustments**:
-    - Combine emissions data to finalize exposure maps:
-        - **THIR DOWNLOAD LAYERS**.
-    - Generate maps with:
-        - **EXP_Layer_Outputs**.
+4. **Eurostat_Emissions**:  
+   - Downloads and filters emissions data.  
+   - Downscales emissions using employment shares calculated in the previous step.  
+   - Outputs the final dataset.
 
-#### **Workflow Diagram**:
+5. **Exp_Map_RegEmis**:  
+   - Generates exposure maps based on regional emissions data.
+
+## **Workflow Diagram**
 ```
-Emissions_Data_Raw
+Eurostat_Empl_Pers (Download & Filter Employment Data)
     │
-    ├── Filter Data → Update_Data_Clean → Inputs Other Files
-    │                           │
-    │                Equal_Raster_Top (Maps)
-    │                           │
-    ├── Equal_Raster_Base (Maps)│
-    │                           └── Final Steps for Exposure Maps
-    │                                     ↓
-    │                            Combine Emissions Data
-    │                                     ↓
-    │                         THIR_DOWNLOAD_LAYERS
-    │                                     ↓
-    └── EXP_Layer_Outputs (Maps)
+    ├── Impute_Empl_Clean (Impute Missing Values with MICE)
+    │
+    ├── Empl_Shares (Calculate Employment Shares and Aggregate Sub-sectors)
+    │
+    ├── Eurostat_Emissions (Download, Filter, and Downscale Emissions Data)
+    │          └── Uses Empl Shares → Outputs Final Dataset
+    │
+    └── Exp_Map_RegEmis (Create Regional Emissions Exposure Maps)
 ```
+
+## **Inputs**
+- Employment data from Eurostat.
+- Emissions data filtered and downscaled using employment shares.
+
+## **Outputs**
+- Final downscaled emissions dataset.
+- Regional emissions exposure maps.
+
 
 - **Inputs**:
   - `Emissions_Data_Raw`: Raw emissions data.
