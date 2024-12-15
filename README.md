@@ -1,1 +1,128 @@
-# Project: LOCALISED T7.1 Paper
+
+# **LOCALISED 7.1 Pipeline**
+
+This project includes a structured workflow divided into four pipelines for processing data related to exposure, vulnerability, response, and index calculation. Below is the detailed directory and file structure.
+
+---
+
+## **Project Structure**
+
+```
+Project/
+│
+├── Pipeline 1: EXPOSURE
+│   ├── run.R                      # Main R script for running the exposure pipeline
+│   ├── targets.R                  # Script defining targets and steps
+│   ├── targets/                   # Directory for target-related files
+│   │   ├── ... (files)            
+│   │
+│   ├── Base_Data/                 
+│   │   └── base_data.xlsx         # Input base data file
+│   │
+│   ├── Outputs/                   # Directory containing pipeline outputs
+│   │   ├── Data/                  # Processed data outputs
+│   │   │   └── ... (files)        
+│   │   │
+│   │   ├── Plots/                 # Plots and visualizations
+│   │       └── ... (files)        
+│   │
+│   ├── R/                         # R-related files and scripts
+│   │   ├── Excluded/              # Excluded or filtered-out data
+│   │   │   └── ... (files)
+│   │   │
+│   │   └── ... (other files)      
+│   │
+│
+├── Pipeline 2: VULNERABILITY      # Next pipeline for assessing vulnerability
+│   └── ... (to be filled as needed)
+│
+├── Pipeline 3: RESPONSE           # Pipeline for response assessment
+│   └── ... (to be filled as needed)
+│
+└── Pipeline 4: INDEX              # Pipeline for index calculations
+    └── ... (to be filled as needed)
+```
+
+---
+
+## **Pipeline Descriptions**
+
+### **Pipeline 1: Exposure**
+This pipeline processes base data and produces cleaned data and visual outputs related to exposure metrics.
+
+#### **Scripting Exposure Maps**  
+
+Below is a high-level workflow for scripting exposure maps:
+
+1. **Data Preparation**:
+    - Import `Emissions_Data_Raw`
+        - Filter data for relevance.
+
+2. **Data Cleaning**:
+    - `Update_Data_Clean`:
+        - Input cleaned files for further use.
+
+3. **Exposure Maps Creation**:
+    - **Equal_Raster_Top**: 
+        - Maps generation.
+    - **Equal_Raster_Base**: 
+        - Base maps for raster analysis.
+
+4. **Final Adjustments**:
+    - Combine emissions data to finalize exposure maps:
+        - **THIR DOWNLOAD LAYERS**.
+    - Generate maps with:
+        - **EXP_Layer_Outputs**.
+
+#### **Workflow Diagram**:
+```
+Emissions_Data_Raw
+    │
+    ├── Filter Data → Update_Data_Clean → Inputs Other Files
+    │                           │
+    │                Equal_Raster_Top (Maps)
+    │                           │
+    ├── Equal_Raster_Base (Maps)│
+    │                           └── Final Steps for Exposure Maps
+    │                                     ↓
+    │                            Combine Emissions Data
+    │                                     ↓
+    │                         THIR_DOWNLOAD_LAYERS
+    │                                     ↓
+    └── EXP_Layer_Outputs (Maps)
+```
+
+- **Inputs**:
+  - `Emissions_Data_Raw`: Raw emissions data.
+- **Outputs**:
+  - Exposure raster maps at various stages.
+  - Final downloadable layers for visualization.
+
+---
+
+### **Pipeline 2: Vulnerability**
+This pipeline will handle the processing of data to assess vulnerabilities. (Details to be completed as the project progresses.)
+
+---
+
+### **Pipeline 3: Response**
+This pipeline will analyze response-related metrics. (Details to be completed.)
+
+---
+
+### **Pipeline 4: Index**
+This pipeline will calculate indexes based on prior outputs from exposure, vulnerability, and response pipelines. (Details to be completed.)
+
+---
+
+## **How to Run the Project**
+
+1. **Set Up**: Ensure all required dependencies (e.g., R libraries) are installed.
+2. **Execution**:
+   - Navigate to `Pipeline 1` and run the `run.R` script to execute the exposure pipeline.
+   - Outputs will be stored in the `Outputs/` directory.
+3. **Next Steps**: Complete subsequent pipelines as needed.
+
+---
+
+This README now reflects the workflow for scripting exposure maps along with the overall project structure. Let me know if further adjustments are needed!
