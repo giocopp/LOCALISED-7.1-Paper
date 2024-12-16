@@ -1,7 +1,7 @@
 
 # **Manufacturing Decarbonization Risk Index: A Theoretical and Empirical Framework**
 
-This project is derived from the Work Package 7: End-user Solutions for Regional Businesses and Investors of the [LOCALISED Project](https://www.localised-project.eu/). LOCALISED is an HORIZON 2020 European-funded research project aimed at providing downscaled decarbonisation trajectories, consistent with Europe’s net-zero target.
+This project is derived from the Task 1 of the Work Package 7: End-user Solutions for Regional Businesses and Investors of the [LOCALISED Project](https://www.localised-project.eu/). LOCALISED is an HORIZON 2020 European-funded research project aimed at providing downscaled decarbonisation trajectories, consistent with Europe’s net-zero target.
 
 ---
 
