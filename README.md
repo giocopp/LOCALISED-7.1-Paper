@@ -46,14 +46,14 @@ Project/
 │   │    │   └── base_data.xlsx
 │   │    │ 
 │   │    ├── Outputs/                   
-│   │    ├── Data/                 
-│   │    │   └── ... (files)
+│   │    │    └── Data/                 
+│   │    │        └── ... (files)
 │   │    │
-│   │    ├── R/                        
-│   │    ├── Excluded/             
-│   │    │   └── ... (files)
-│   │    │
-│   │    └── ... (files)
+│   │    └── R/                        
+│   │        ├── Excluded/             
+│   │        │   └── ... (files)
+│   │        │
+│   │        └── ... (files)
 │   │
 │   │     
 │   ├── LABOR
