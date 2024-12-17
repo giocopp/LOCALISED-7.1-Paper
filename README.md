@@ -37,23 +37,23 @@ Project/
 │
 ├── Pipeline 2: VULNERABILITY      # Pipeline for assessing vulnerability
 │   ├── ENERGY
-│   │    ├── _run.R
-│   │    ├── _targets.R
-│   │    ├── tagets/
-│   │    │   └── ... (files)
-│   │    │
-│   │    ├── Base_Data/                 
-│   │    │   └── base_data.xlsx
-│   │    │ 
-│   │    ├── Outputs/                   
-│   │    │    └── Data/                 
-│   │    │        └── ... (files)
-│   │    │
-│   │    └── R/                        
-│   │        ├── Excluded/             
-│   │        │   └── ... (files)
-│   │        │
-│   │        └── ... (files)
+│   │   ├── _run.R
+│   │   ├── _targets.R
+│   │   ├── tagets/
+│   │   │   └── ... (files)
+│   │   │
+│   │   ├── Base_Data/                 
+│   │   │   └── base_data.xlsx
+│   │   │ 
+│   │   ├── Outputs/                   
+│   │   │    └── Data/                 
+│   │   │        └── ... (files)
+│   │   │
+│   │   └── R/                        
+│   │       ├── Excluded/             
+│   │       │   └── ... (files)
+│   │       │
+│   │       └── ... (files)
 │   │
 │   │     
 │   ├── LABOR
