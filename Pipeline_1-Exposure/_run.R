@@ -1,4 +1,4 @@
-library(targets)
+setwd("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Pipeline_1-Exposure")
 
-# Run the pipeline
+library(targets)
 tar_make()

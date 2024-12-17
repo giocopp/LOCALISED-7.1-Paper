@@ -56,7 +56,7 @@ indicator_df_f <- indicator_df_f |>
   dplyr::filter(substr(Sector, 1, 1) == "C") |> 
   dplyr::filter(!str_detect(NUTS_ID, "ZZ"))  
 
-base_data <- readxl::read_excel("Base Data/base_data.xlsx") |> 
+base_data <- readxl::read_excel("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/base_data.xlsx") |> 
   dplyr::select(1, 3)
 
 indicator_df_f <- base_data |> 

@@ -3,4 +3,4 @@ step1|stem|4c05f1307c2d4b73|7ccb30cf56051bdc|2c530c1562a7fbd1|1101250716|Outputs
 step2|stem|adf360e43fa57641|89b4ff304a709144|a8a5a20666b7f1ae|-1643023697|Outputs/Data/EMPL_persons_imputed_data.xlsx|t20071.5630823755s|ceb7c3067e45e84d|151999|file|local|vector|||23.952|Number of logged events 6001. Expected 2 pieces. Additional pieces discarded in 28 rows 3, 6, 9, 12, 15, 18,21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, ....|
 step3|stem|fa9410029e042547|cf78b621922a4d38|e106da283d460cde|213080837|Outputs/Data/EMPL_shares_data.xlsx|t20071.5630839183s|d635c5aa711298e0|225352|file|local|vector|||0.131||
 step4|stem|00729ebdeb052fe0|c8e6881c0d37d370|1aa8f9ce92f3552b|2006563495|Outputs/Data/EXP_Data.xlsx|t20071.6056998096s|cb14ae57f726c8c8|308222|file|local|vector|||6.096||
-step5|stem|08d2f4d9060d946c|55720ea67eb8d5ab|cd2e763725298148|484982736|Outputs/Plots/IT_C_emissions_map.png|t20071.6101025336s|cad6770941defaee|100869|file|local|vector|||4.322||
+step5|stem|8af17ba4a24f0ff1|55720ea67eb8d5ab|cd2e763725298148|484982736|Outputs/Plots/IT_C_emissions_map.png|t20074.6392121989s|1fde58c04a2ea957|269338|file|local|vector|||8.849||
