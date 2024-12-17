@@ -12,11 +12,11 @@ This project includes a structured workflow divided into four pipelines for proc
 ```
 Project/
 │
-├── Pipeline 1: EXPOSURE
-│   ├── run.R                      # R script for running the exposure pipeline
-│   ├── targets.R                  # Script defining targets and steps
-│   ├── targets/                   # Directory for target-related files
-│   │   ├── ... (files)            
+├── Pipeline 1: EXPOSURE            # Pipeline for assessing exposure
+│   ├── _run.R                      # R script for running the exposure pipeline
+│   ├── _targets.R                  # Script defining targets and steps
+│   ├── targets/                    # Directory for target-related files
+│   │   └── ... (files)            
 │   │
 │   ├── Base_Data/                 
 │   │   └── base_data.xlsx         # Input base data file
@@ -25,18 +25,52 @@ Project/
 │   │   ├── Data/                  # Processed data outputs
 │   │   │   └── ... (files)        
 │   │   │
-│   │   ├── Plots/                 # Plots and visualizations
+│   │   └── Plots/                 # Plots and visualizations
 │   │       └── ... (files)        
 │   │
-│   ├── R/                         # R-related files and scripts
-│   │   ├── Excluded/              # Excluded or filtered-out data
-│   │   │   └── ... (files)
-│   │   │
-│   │   └── ... (files)      
-│   │
+│   └── R/                         # R-related files and scripts
+│       ├── Excluded/              # Excluded or filtered-out data
+│       │   └── ... (files)
+│       │
+│       └── ... (files)      
+│   
 │
-├── Pipeline 2: VULNERABILITY      # Next pipeline for assessing vulnerability
-│   └── ... 
+├── Pipeline 2: VULNERABILITY      # Pipeline for assessing vulnerability
+│   ├── ENERGY
+│   │    ├── _run.R
+│   │    ├── _targets.R
+│   │    ├── tagets/
+│   │    │   └── ... (files)
+│   │    │
+│   │    ├── Base_Data/                 
+│   │    │   └── base_data.xlsx
+│   │    │ 
+│   │    ├── Outputs/                   
+│   │    ├── Data/                 
+│   │    │   └── ... (files)
+│   │    │
+│   │    ├── R/                        
+│   │    ├── Excluded/             
+│   │    │   └── ... (files)
+│   │    │
+│   │    └── ... (files)
+│   │
+│   │     
+│   ├── LABOR
+│   │   ├── ... 
+│   │     
+│   ├── SUPPLY CHAIN
+│   │   ├── ... 
+│   │     
+│   ├── FINANCE
+│   │   ├── ... 
+│   │     
+│   ├── TECHNOLOGY
+│   │   ├── ... 
+│   │
+│   └── WEIGHTING AND COMPOSITION
+│       └── ...
+│
 │
 ├── Pipeline 3: RESPONSE           # Pipeline for response assessment
 │   └── ... 
