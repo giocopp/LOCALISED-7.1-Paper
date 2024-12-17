@@ -103,4 +103,7 @@ EMPL_shares_data <- regional_with_aggregated_shares
 writexl::write_xlsx(EMPL_shares_data, 
              "Outputs/Data/EMPL_shares_data.xlsx")
 
+writexl::write_xlsx(EMPL_shares_data, 
+             "/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/EMPL_shares_data.xlsx")
+
 return("Outputs/Data/EMPL_shares_data.xlsx")
