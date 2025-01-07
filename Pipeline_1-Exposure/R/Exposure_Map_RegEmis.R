@@ -41,6 +41,11 @@ eu_list <- unique(countries_sf$CNTR_ID)
 eu_sf <- nuts2_sf %>%
   dplyr::filter(CNTR_CODE %in% eu_list)
 
+overseas_codes <- c("FRY", "ES7", "PT2")
+
+eu_sf <- eu_sf %>%
+  filter(!stringr::str_sub(NUTS_ID, 1, 3) %in% overseas_codes)
+
 # Merge with NUTS2 boundaries
 mapping_sf <- eu_sf %>%
   dplyr::left_join(regional_emiss, by = c("NUTS_ID"))
@@ -50,6 +55,7 @@ if (nrow(mapping_sf) == 0) {
   stop("No data found after merging. Check 'NUTS_ID' consistency between datasets.")
 }
 
+# Define Lambert Projection
 # Define Lambert Projection
 crs_lambert <- "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +datum=WGS84 +units=m +no_defs"
 
@@ -62,11 +68,17 @@ create_map <- function(region = "EU", sector = "C", output_dir = "Outputs/Plots"
   if (region == "EU") {
     region_sf <- mapping_sf
     base_sf <- eu_sf
+    
+    bbox <- sf::st_bbox(sf::st_transform(eu_sf, crs = crs_lambert))
+    
   } else {
     region_sf <- mapping_sf %>%
       filter(CNTR_CODE == region)
     base_sf <- nuts2_sf %>%
       filter(CNTR_CODE == region)
+    
+    # For non-EU, use the default bounding box after projection
+    bbox <- sf::st_bbox(base_sf)
   }
   
   # Filter data for the specified sector
@@ -74,9 +86,13 @@ create_map <- function(region = "EU", sector = "C", output_dir = "Outputs/Plots"
     filter(Sector == sector) %>%
     mutate(Normalized_Emissions = as.numeric(Normalized_Emissions))
   
-  # Check for missing or empty data
-  if (nrow(sector_data) == 0) {
-    stop(paste("No data available for region:", region, "and sector:", sector))
+  # Apply Lambert projection to sector and base data
+  base_sf <- sf::st_transform(base_sf, crs = crs_lambert)
+  sector_data <- sf::st_transform(sector_data, crs = crs_lambert)
+  
+  # Use manually defined bbox for EU, else recalculate
+  if (region != "EU") {
+    bbox <- sf::st_bbox(base_sf)
   }
   
   # Define breaks and colors dynamically
@@ -87,9 +103,6 @@ create_map <- function(region = "EU", sector = "C", output_dir = "Outputs/Plots"
   )$brks
   
   cols <- colorRampPalette(brewer.pal(n = 9, name = "Reds"))(length(breaks) - 1)
-  
-  # Dynamically calculate the bounding box for the selected region
-  bbox <- sf::st_bbox(base_sf)  # Get the bounding box of the selected region
   
   # Create the map
   map_plot <- ggplot(data = sector_data) +
@@ -134,12 +147,12 @@ create_map <- function(region = "EU", sector = "C", output_dir = "Outputs/Plots"
   return(output_path)
 }
 
-
 # Example Usage
 # Create a map for the EU and sector "C"
-eu_map_path <- create_map(region = "EU", sector = "C")
+eu_map_path <- create_map(region = "EU", sector = "C25+C28-C30")
 
 # Create a map for Italy and sector "C10"
 italy_map_path <- create_map(region = "IT", sector = "C")
 
 
+View(regional_emiss)

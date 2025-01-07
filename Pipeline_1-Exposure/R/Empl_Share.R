@@ -43,7 +43,7 @@ print(verification)
 # Step 1: Create a mapping table for aggregation
 sector_mapping <- data.frame(
   Original_Sector = c("C", "C10", "C11", "C12", "C13", "C14", "C15", "C16", "C17", "C18", "C19", "C20", "C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28", "C29", "C30", "C31", "C32", "C33"),
-  Aggregated_Sector = c("C", "C10-C12", "C10-C12", "C10-C12", "C13-C15", "C13-C15", "C13-C15", "C16", "C17", "C18", "C19", "C20", "C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28", "C29", "C30", "C31-C32", "C31-C32", "C33")
+  Aggregated_Sector = c("C", "C10-C12", "C10-C12", "C10-C12", "C13-C15", "C13-C15", "C13-C15", "C16-C18", "C16-C18", "C16-C18", "C19-C22", "C19-C22", "C19-C22", "C19-C22", "C23", "C24", "C25+C28-C30", "C26-C27", "C26-C27", "C25+C28-C30", "C25+C28-C30", "C25+C28-C30", "C31-C32", "C31-C32", "C33")
 )
 
 # Step 2: Map the original sectors to the aggregated sectors
@@ -79,27 +79,13 @@ verification_aggregated <- regional_with_aggregated_shares %>%
 print("Verification of aggregated shares summing to 1:")
 print(verification_aggregated)
 
-### Add High-tech aggregation by NACE Rev.2 
-
-# Step 7: Define a mapping for technological intensity based on NACE Rev.2
-tech_mapping <- data.frame(
-  Aggregated_Sector = c("C21", "C26", "C20", "C27", "C28", "C29", "C30", "C19", "C22", "C23", "C24", "C25", "C33", "C10-C12", "C13-C15", "C16", "C17", "C18", "C31-C32"),
-  Tech_Grade = c("High-tech", "High-tech", "Medium-high-tech", "Medium-high-tech", "Medium-high-tech", "Medium-high-tech", "Medium-high-tech", 
-                 "Medium-low-tech", "Medium-low-tech", "Medium-low-tech", "Medium-low-tech", "Medium-low-tech", "Medium-low-tech", 
-                 "Low-tech", "Low-tech", "Low-tech", "Low-tech", "Low-tech", "Low-tech")
-)
-
-# Step 8: Join the technological intensity information to the regional data
-regional_with_aggregated_shares <- regional_with_aggregated_shares %>%
-  left_join(tech_mapping, by = "Aggregated_Sector")
-
 regional_with_aggregated_shares <- regional_with_aggregated_shares %>%
   rename(Sector = Aggregated_Sector)
 
 EMPL_shares_data <- regional_with_aggregated_shares
 # return(EMPL_shares_data)
 
-# Step 9: Save the updated dataset with the technology grade included
+# Step 9: Save 
 writexl::write_xlsx(EMPL_shares_data, 
              "Outputs/Data/EMPL_shares_data.xlsx")
 
