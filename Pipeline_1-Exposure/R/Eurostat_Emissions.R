@@ -111,6 +111,7 @@ shares <- shares %>%
 
 # Filter emissions to keep only national-level data
 national_emissions <- emissions %>% filter(nchar(NUTS_ID) == 2)
+View(national_emissions)
 
 # Merge national emissions with regional shares
 regional_emissions <- national_emissions %>%

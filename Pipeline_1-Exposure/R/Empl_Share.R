@@ -3,7 +3,8 @@ library(readxl)
 library(dplyr)
 
 # Load the dataset
-EMPL_persons_imputed <- readxl::read_xlsx("Outputs/Data/EMPL_persons_imputed_data.xlsx")
+EMPL_persons_imputed <- readxl::read_xlsx("Outputs/Data/EMPL_persons_imputed_data.xlsx") |> 
+  filter(!Sector %in% c("NA", ".id", ".imp"))
 
 # Extract the country code from the NUTS_ID (first two characters)
 EMPL_persons_imputed <- EMPL_persons_imputed %>%
@@ -29,7 +30,7 @@ regional_with_shares <- regional_data %>%
     )
   )
 
-unique(regional_with_shares$Sector)
+unique(EMPL_persons_imputed$Sector)
 
 # Verify that shares sum to 1 for each country-sector combination
 verification <- regional_with_shares %>%
@@ -93,3 +94,4 @@ writexl::write_xlsx(EMPL_shares_data,
              "/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/EMPL_shares_data.xlsx")
 
 return("Outputs/Data/EMPL_shares_data.xlsx")
+
