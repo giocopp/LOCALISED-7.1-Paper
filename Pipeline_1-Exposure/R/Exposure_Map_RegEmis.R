@@ -163,7 +163,7 @@ eu_map_path <- create_map(
   region = "EU",
   variable = "Normalized_Emissions",
   variable_name = "Normalized Emissions (Index)",
-  sector = "C",
+  sector = "C24",
   fixed_range = c(0, 1),
   color_palette = "Reds"
 )
