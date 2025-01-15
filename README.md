@@ -12,14 +12,15 @@ This project includes a structured workflow divided into four pipelines for proc
 ```
 Project/
 │
+├── Base_Data/                 
+│   └── ... (files)       
+│
+│
 ├── Pipeline 1: EXPOSURE            # Pipeline for assessing exposure
 │   ├── _run.R                      # R script for running the exposure pipeline
 │   ├── _targets.R                  # Script defining targets and steps
 │   ├── targets/                    # Directory for target-related files
 │   │   └── ... (files)            
-│   │
-│   ├── Base_Data/                 
-│   │   └── base_data.xlsx         # Input base data file
 │   │
 │   ├── Outputs/                   # Directory containing pipeline outputs
 │   │   ├── Data/                  # Processed data outputs
@@ -42,9 +43,6 @@ Project/
 │   │   ├── tagets/
 │   │   │   └── ... (files)
 │   │   │
-│   │   ├── Base_Data/                 
-│   │   │   └── base_data.xlsx
-│   │   │ 
 │   │   ├── Outputs/                   
 │   │   │    └── Data/                 
 │   │   │        └── ... (files)
