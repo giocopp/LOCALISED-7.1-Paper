@@ -8,7 +8,7 @@ base_data
 
 # Crosswalk from NUTS2 to the aggregated code (RCI_Agg)
 crosswalk_RCI <- data.frame(
-  NUTS_ID      = c("AT12", "AT13", "B10", "B24", "B31",
+  NUTS_ID      = c("AT12", "AT13", "BE10", "BE24", "BE31",
                  "HR05", "HR06", "CZ01", "CZ02", "DE30",
                  "DE40", "HU11", "HU12", "NL23", "NL32"),
   NUTS_agg    = c("AT_C", "AT_C", "BE_C", "BE_C", "BE_C",
@@ -29,7 +29,7 @@ base_data <- base_data |>
   rename("RCI_code" = "join_code") |>
   select(CNTR_CODE, NUTS_ID, NUTS_NAME, RCI_code)
 
-base_data
+View(base_data)
 
 # RSI
 RIS <- readxl::read_xlsx("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/RIS_2023.xlsx") |>
