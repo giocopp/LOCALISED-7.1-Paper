@@ -1,6 +1,6 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-step1|stem|4c05f1307c2d4b73|7ccb30cf56051bdc|2c530c1562a7fbd1|1101250716|Outputs/Data/EMPL_persons_raw_data.xlsx|t20071.5628050399s|80a33b2bf9daaafe|153556|file|local|vector|||370.29||
-step2|stem|adf360e43fa57641|89b4ff304a709144|a8a5a20666b7f1ae|-1643023697|Outputs/Data/EMPL_persons_imputed_data.xlsx|t20071.5630823755s|ceb7c3067e45e84d|151999|file|local|vector|||23.952|Number of logged events 6001. Expected 2 pieces. Additional pieces discarded in 28 rows 3, 6, 9, 12, 15, 18,21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, ....|
-step3|stem|3f20b215fd0485ee|cf78b621922a4d38|e106da283d460cde|213080837|Outputs/Data/EMPL_shares_data.xlsx|t20095.5387481631s|852d6ac39a0ecd7f|116499|file|local|vector|||0.108||
-step4|stem|91ad3893b78eb265|c8e6881c0d37d370|cbb3e7c83881e216|2006563495|Outputs/Data/EXP_Data.xlsx|t20095.5388734136s|bba975f308e2e915|155287|file|local|vector|||10.799||
-step5|stem|08d5f59e833de599|55720ea67eb8d5ab|bcf574efb20b9199|484982736||t0s|a10b0861f057ffab|0|file|local|vector|||2.741||
+step1|stem|95241a63af3cd8ef|7ccb30cf56051bdc|2c530c1562a7fbd1|1101250716|Outputs/Data/EMPL_persons_raw_data.xlsx|t20104.6113948536s|41ef2e44c7f5cecf|153526|file|local|vector|||198.066||
+step2|stem|d3864af23a5c1583|89b4ff304a709144|0e954469aff0e886|-1643023697|Outputs/Data/EMPL_persons_imputed_data.xlsx|t20104.6115819694s|fc71278abf6f3a53|151981|file|local|vector|||16.159|Number of logged events 6001. Expected 2 pieces. Additional pieces discarded in 28 rows 3, 6, 9, 12, 15, 18,21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, ....|
+step3|stem|8a58fe229321a4c5|cf78b621922a4d38|73234be94101e0c9|213080837|Outputs/Data/EMPL_shares_data.xlsx|t20104.6115827753s|d61115a2e3c6fbab|108988|file|local|vector|||0.086||
+step4|stem|53219683c0386855|c8e6881c0d37d370|2f0e6aa72d3e6111|2006563495|Outputs/Data/EXP_Data_index.xlsx|t20104.6185542978s|4c5715e13a7f9bd6|72179|file|local|vector|||19.208||
+step5|stem|b207026f66e91061|55720ea67eb8d5ab|16693225e86a625a|484982736|Outputs/Plots/IT_C_Exposure_Index_map.png|t20104.6197061736s|adeffe52b325b271|266060|file|local|vector|||3.379|aes_string was deprecated in ggplot2 3.0.0.ℹ Please use tidy evaluation idioms with aes.ℹ See also vignetteggplot2inpackages for more information.|

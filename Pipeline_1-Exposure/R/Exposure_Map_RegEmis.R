@@ -63,7 +63,7 @@ crs_lambert <- "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +datum=
 create_map <- function(
     data,                           # Dataset to use
     region = "EU",                  # Region to map
-    variable = "Normalized_Emissions", # Variable to map
+    variable = "Exposure_Index", # Variable to map
     variable_name = "Emissions (Index)", # Legend title
     sector = NULL,                  # Sector filter (optional)
     output_dir = "Outputs/Plots",   # Directory to save the plot
@@ -161,9 +161,9 @@ create_map <- function(
 eu_map_path <- create_map(
   data = mapping_sf,
   region = "EU",
-  variable = "Normalized_Emissions",
-  variable_name = "Normalized Emissions (Index)",
-  sector = "C24",
+  variable = "Exposure_Index",
+  variable_name = "Emissions (Index)",
+  sector = "C",
   fixed_range = c(0, 1),
   color_palette = "Reds"
 )
@@ -172,8 +172,8 @@ eu_map_path <- create_map(
 italy_map_path <- create_map(
   data = mapping_sf,
   region = "IT",
-  variable = "Normalized_Emissions",
-  variable_name = "Normalized Emissions (Index)",
+  variable = "Exposure_Index",
+  variable_name = "Emissions (Index)",
   sector = "C",
   fixed_range = c(0, 1),
   color_palette = "Reds"

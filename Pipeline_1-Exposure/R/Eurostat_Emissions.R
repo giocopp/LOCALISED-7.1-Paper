@@ -182,6 +182,7 @@ writexl::write_xlsx(
   Regional_emissions_index,
   "Outputs/Data/EXP_Data_index.xlsx")
 
-return("Outputs/Data/EXP_Data_raw.xlsx", "Outputs/Data/EXP_Data_index.xlsx")
+return("Outputs/Data/EXP_Data_raw.xlsx")
+return("Outputs/Data/EXP_Data_index.xlsx")
 
 
