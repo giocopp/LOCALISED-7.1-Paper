@@ -1,3 +1,5 @@
+setwd("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Pipeline_1-Exposure")
+
 ### INSTALL PACKAGES
 
 remotes::install_github(
@@ -158,14 +160,28 @@ normalize_emissions <- function(data) {
 # Example usage:
 regional_emissions <- normalize_emissions(regional_emissions)
 
-Regional_emissions_data_final <- regional_emissions
+Regional_emissions_data_final <- regional_emissions |> 
+  dplyr::select(NUTS_ID, Sector, Regional_Emissions, Normalized_Emissions) |> 
+  rename(GHG_Emissions = Regional_Emissions,
+         Exposure_Index = Normalized_Emissions)
+
+Regional_emissions_data <- Regional_emissions_data_final |> 
+  dplyr::select(NUTS_ID, Sector, GHG_Emissions)
+
+Regional_emissions_index <- Regional_emissions_data_final |> 
+  dplyr::select(NUTS_ID, Sector, Exposure_Index)
+
 # return(Regional_emissions_data_final)
 
 # Save the updated dataset
 writexl::write_xlsx(
-  regional_emissions,
-  "Outputs/Data/EXP_Data.xlsx")
+  Regional_emissions_data,
+  "Outputs/Data/EXP_Data_raw.xlsx")
 
-return("Outputs/Data/EXP_Data.xlsx")
+writexl::write_xlsx(
+  Regional_emissions_index,
+  "Outputs/Data/EXP_Data_index.xlsx")
+
+return("Outputs/Data/EXP_Data_raw.xlsx", "Outputs/Data/EXP_Data_index.xlsx")
 
 

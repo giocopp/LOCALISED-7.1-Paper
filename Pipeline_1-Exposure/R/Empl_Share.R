@@ -1,3 +1,5 @@
+setwd("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Pipeline_1-Exposure")
+
 # Load necessary libraries
 library(readxl)
 library(dplyr)
