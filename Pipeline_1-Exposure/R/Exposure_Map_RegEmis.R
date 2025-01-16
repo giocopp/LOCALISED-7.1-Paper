@@ -22,7 +22,7 @@ if (any(installed_libs == FALSE)) {
 invisible(lapply(libs, library, character.only = TRUE))
 
 # Read data
-regional_emiss <- readxl::read_xlsx("Outputs/Data/EXP_Data.xlsx")
+regional_emiss <- readxl::read_xlsx("Outputs/Data/EXP_Data_index.xlsx")
 
 # Get Boundaries
 nuts2_sf <- giscoR::gisco_get_nuts(
