@@ -95,8 +95,8 @@ crosswalk_RSI
 base_data <- base_data |> 
   left_join(crosswalk_RSI, by = "NUTS_ID") |> 
   mutate(join_code = coalesce(NUTS_1, NUTS_ID)) |> 
-  rename("RSI_code" = "join_code") |> 
-  select(CNTR_CODE, NUTS_ID, NUTS_NAME, RCI_code, RSI_code)
+  rename("RIS_code" = "join_code") |> 
+  select(CNTR_CODE, NUTS_ID, NUTS_NAME, RCI_code, RIS_code)
 
 base_data
 
