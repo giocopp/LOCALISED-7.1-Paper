@@ -146,13 +146,13 @@ normalize_emissions <- function(data) {
   min_sub <- min(subsector_values, na.rm = TRUE)
   max_sub <- max(subsector_values, na.rm = TRUE)
   
-  # Normalize total sector C values
-  data$Normalized_Emissions[is_total_sector] <- (data$Regional_Emissions[is_total_sector] - min_C) /
-    (max_C - min_C)
+  # Normalize total sector C values to range [0.01, 0.99]
+  data$Normalized_Emissions[is_total_sector] <- 0.01 + 
+    (data$Regional_Emissions[is_total_sector] - min_C) / (max_C - min_C) * (0.99 - 0.01)
   
-  # Normalize subsector values across all subsectors
-  data$Normalized_Emissions[is_subsector] <- (data$Regional_Emissions[is_subsector] - min_sub) /
-    (max_sub - min_sub)
+  # Normalize subsector values to range [0.01, 0.99]
+  data$Normalized_Emissions[is_subsector] <- 0.01 + 
+    (data$Regional_Emissions[is_subsector] - min_sub) / (max_sub - min_sub) * (0.99 - 0.01)
   
   return(data)
 }
