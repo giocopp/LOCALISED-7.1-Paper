@@ -1,0 +1,4 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+step1|stem|352d2e5ca4508c50|0d5a53b2b5552efd|2c530c1562a7fbd1|1101250716|Outputs/Data/Index_Data.xlsx|t20109.6194193802s|451ad63e6ef62826|187822|file|local|vector|||4.557||
+step2|stem|465e81cc6e533002|7e3bedc1dda51941|15d4740d32bf7dfa|-1643023697|Outputs/Data/Vulnerability_Index.xlsx|t20109.6200353572s|ae322480d153127e|214274|file|local|vector|||0.701||
+step3|stem|536711bc33cb2590|489246b22bdb3b87|a18b0c396a6895df|213080837|Outputs/Plots/IT_C_Vulnerability_Index_map.png|t20109.6200686809s|66d2d0a1ad9357af|270125|file|local|vector|||2.876|aes_string was deprecated in ggplot2 3.0.0.ℹ Please use tidy evaluation idioms with aes.ℹ See also vignetteggplot2inpackages for more information.|
