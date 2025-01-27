@@ -188,4 +188,3 @@ italy_map_path <- create_map(
 #
 #
 
-

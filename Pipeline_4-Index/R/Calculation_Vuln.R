@@ -71,12 +71,11 @@ weights <- weights / sum(weights)
 Vuln_Index <- NZBC_Index |> 
   rowwise() |>  # Process row by row
   mutate(
-    Vulnerability_Index = exp(
-      sum(
-        log(c(Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index)) * weights, na.rm = TRUE
-      ) / 
-        sum(weights[!is.na(c(Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index))])  # Adjust weights for non-NA values
-    )
+    Vulnerability_Index = sum(
+      c(Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index) * weights,
+      na.rm = TRUE
+    ) / 
+      sum(weights[!is.na(c(Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index))])  # Adjust weights for non-NA values
   ) |> 
   ungroup()
 
@@ -97,8 +96,6 @@ Vuln_Index <- Vuln_Index |>
     )
   )
 
-View(Vuln_Index)
-
 write_xlsx(Vuln_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.xlsx")
 write_csv(Vuln_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.csv")
 
@@ -111,16 +108,15 @@ columns <- c("Exposure_Index", "Energy_Index", "Labor_Index", "Sup_Ch_Index", "T
 weights <- c(6, 1, 1, 1, 1, 1, 1)  # Example weights: Energy_Index is more important
 weights <- weights / sum(weights)  # Normalize weights to sum to 1
 
-# Calculate the weighted geometric mean
+# Calculate the weighted mean
 Risk_Index <- NZBC_Index |> 
   rowwise() |>  # Process row by row
   mutate(
-    Risk_Index = exp(
-      sum(
-        log(c(Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index)) * weights, na.rm = TRUE
-      ) / 
-        sum(weights[!is.na(c(Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index))])  # Adjust weights for non-NA values
-    )
+    Risk_Index = sum(
+      c(Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index) * weights,
+      na.rm = TRUE
+    ) / 
+      sum(weights[!is.na(c(Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index))])  # Normalize weights for non-NA values
   ) |> 
   ungroup()
 
@@ -141,8 +137,6 @@ Risk_Index <- Risk_Index |>
     )
   )
 
-View(Risk_Index)
-
 write_xlsx(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_Index_Data.xlsx")
 write_csv(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_Index_Data.csv")
 
@@ -151,3 +145,4 @@ return("Outputs/Data/Vuln_Index_Data.csv")
 return("Outputs/Data/Risk_Index_Data.xlsx")
 return("Outputs/Data/Risk_Index_Data.csv")
 
+View(Risk_Index)
