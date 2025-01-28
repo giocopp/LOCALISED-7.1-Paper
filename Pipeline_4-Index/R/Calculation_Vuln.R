@@ -104,20 +104,23 @@ write_csv(Vuln_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Da
 
 # Define weights (must match the columns ending with "Index")
 # Define columns and weights
-columns <- c("Exposure_Index", "Energy_Index", "Labor_Index", "Sup_Ch_Index", "Tech_Index", "Finance_Index", "Inst_Index")
-weights <- c(6, 1, 1, 1, 1, 1, 1)  # Example weights: Energy_Index is more important
+columns <- c("Exposure_Index", "Vulnerability_Index")
+weights <- c(4, 3)  # Example weights: Energy_Index is more important
 weights <- weights / sum(weights)  # Normalize weights to sum to 1
 
-# Calculate the weighted mean
-Risk_Index <- NZBC_Index |> 
-  rowwise() |>  # Process row by row
+# Calculate the weighted geometric mean
+# Define columns and weights
+columns <- c("Exposure_Index", "Vulnerability_Index")  # Columns to include
+weights <- c(4, 3)  # Example weights: Exposure is more important than Vulnerability
+weights <- weights / sum(weights)  # Normalize weights to sum to 1
+
+# Calculate the RISK
+# Calculate weighted arithmetic mean
+Risk_Index <- Vuln_Index |>
+  rowwise() |>
   mutate(
-    Risk_Index = sum(
-      c(Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index) * weights,
-      na.rm = TRUE
-    ) / 
-      sum(weights[!is.na(c(Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index))])  # Normalize weights for non-NA values
-  ) |> 
+    Risk_Index = Exposure_Index * weights[1] + Vulnerability_Index * weights[2]
+  ) |>
   ungroup()
 
 Risk_Index <- Risk_Index |> 
@@ -145,4 +148,3 @@ return("Outputs/Data/Vuln_Index_Data.csv")
 return("Outputs/Data/Risk_Index_Data.xlsx")
 return("Outputs/Data/Risk_Index_Data.csv")
 
-View(Risk_Index)

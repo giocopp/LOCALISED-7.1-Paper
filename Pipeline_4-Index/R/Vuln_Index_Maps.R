@@ -22,8 +22,22 @@ if (any(installed_libs == FALSE)) {
 invisible(lapply(libs, library, character.only = TRUE))
 
 # Read data
-Risk_Index <- readxl::read_xlsx("Outputs/Data/Risk_Index_Data.xlsx") |>
-  select(NUTS_ID, Sector_ID, Risk_Index)
+Vuln_Index  <- readxl::read_xlsx("~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.xlsx") |>
+  select(NUTS_ID, Sector_ID, Vulnerability_Index)
+
+Risk_Index <- readxl::read_xlsx("Outputs/Data/Risk_Index_Data.xlsx")
+
+Risk_Index <- Vuln_Index |> 
+  left_join(
+    Risk_Index, 
+    by = c("NUTS_ID", "Sector_ID")
+  ) |>
+  select(
+    NUTS_ID, Sector_ID, Exposure_Index, Energy_Index, Labor_Index, 
+    Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index, 
+    Vulnerability_Index = Vulnerability_Index.x,  # Explicitly select from Vuln_Index
+    Risk_Index
+  )
 
 # Get Boundaries
 nuts2_sf <- giscoR::gisco_get_nuts(
@@ -72,12 +86,12 @@ crs_lambert <- "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +datum=
 create_map <- function(
     data,                           # Dataset to use
     region = "EU",                  # Region to map
-    variable = "Risk_Index", # Variable to map
-    variable_name = "Risk Index", # Legend title
+    variable = "Risk_Index",        # Variable to map
+    variable_name = "Risk Index",   # Legend title
     sector = NULL,                  # Sector filter (optional)
     output_dir = "Outputs/Plots",   # Directory to save the plot
     fixed_range = c(0, 1),          # Fixed range for the variable
-    color_palette = "Purples"          # Color palette for the map
+    color_palette = "Purples"       # Color palette for the map
 ) {
   # Define Lambert CRS
   crs_lambert <- "+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +datum=WGS84 +units=m +no_defs"
@@ -187,4 +201,56 @@ italy_map_path <- create_map(
 )
 #
 #
+### Vulnerability Maps
+#
+#
+# Example Usage
+# Create a map for the EU and sector "C"
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  sector = "C",
+  variable = "Vulnerability_Index",
+  variable_name = "Vulnerability Index",
+  fixed_range = c(0, 1),
+  color_palette = "Blues"
+)
+#
+italy_map_path <- create_map(
+  data = mapping_sf,
+  region = "IT",
+  sector = "C",
+  variable = "Vulnerability_Index",
+  variable_name = "Vulnerability Index",
+  fixed_range = c(0, 1),
+  color_palette = "Blues"
+)
+#
+#
 
+### Exposure Maps
+#
+#
+# Example Usage
+# Create a map for the EU and sector "C"
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  sector = "C",
+  variable = "Exposure_Index",
+  variable_name = "Exposure Index",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+#
+italy_map_path <- create_map(
+  data = mapping_sf,
+  region = "IT",
+  sector = "C",
+  variable = "Exposure_Index",
+  variable_name = "Exposure Index",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+#
+#
