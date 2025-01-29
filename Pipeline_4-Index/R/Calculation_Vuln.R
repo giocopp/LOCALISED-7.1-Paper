@@ -57,7 +57,7 @@ NZBC_Index <- Index_s |>
   rename(Region_Name = NUTS_NAME,
          Country = CNTR_CODE) |> 
   mutate(Sector_Name = recode(Sector_ID, !!!sector_name_map)) |> 
-  select(NUTS_ID, Country, Region_Name, Sector_ID, Sector_Name, Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index)
+  select(Country, NUTS_ID, Region_Name, Sector_ID, Sector_Name, Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index)
 
 write_xlsx(NZBC_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/NZBC_Index_Data.xlsx")
 write_csv(NZBC_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/NZBC_Index_Data.csv")
