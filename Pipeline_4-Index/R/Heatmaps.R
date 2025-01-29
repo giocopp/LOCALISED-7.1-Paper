@@ -1,3 +1,5 @@
+setwd("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index")
+
 # Load necessary libraries
 libs <- c(
   "restatapi",
@@ -24,27 +26,38 @@ Risk_Index_Heat <- readxl::read_xlsx("Outputs/Data/Risk_Index_Data.xlsx") %>%
 
 # Filter for Austria
 Risk_Index_Heat_AT <- Risk_Index_Heat %>%
-  filter(Country == "AT") %>%
-  select(-Country)  # Remove Country column since it is now redundant
+  filter(Country == "AT")
 
-# Convert to a matrix for clustering (keeping only numeric columns)
-heatmap_data_weighted <- Risk_Index_Heat_AT %>%
+# Separate "Total Manufacturing" before clustering
+total_manufacturing <- Risk_Index_Heat_AT %>%
+  filter(Sector_Name == "Total Manufacturing")
+
+remaining_sectors <- Risk_Index_Heat_AT %>%
+  filter(Sector_Name != "Total Manufacturing")
+
+# Convert the remaining data to a matrix for clustering
+heatmap_data_remaining <- remaining_sectors %>%
   select(Exposure_Index, Vulnerability_Index, Risk_Index) %>%
   as.matrix()
 
-# Perform hierarchical clustering on rows and columns
-row_clusters_weighted <- hclust(dist(heatmap_data_weighted), method = "ward.D2")
-col_clusters_weighted <- hclust(dist(t(heatmap_data_weighted)), method = "ward.D2")
+# Perform hierarchical clustering on remaining sectors
+row_clusters_remaining <- hclust(dist(heatmap_data_remaining), method = "ward.D2")
 
-# Reorder the data based on clustering
-heatmap_data_weighted <- heatmap_data_weighted[row_clusters_weighted$order, col_clusters_weighted$order]
+# Reorder the remaining sectors based on clustering
+remaining_sectors <- remaining_sectors[row_clusters_remaining$order, ]
+
+# Combine "Total Manufacturing" back as the first row
+ordered_data <- bind_rows(total_manufacturing, remaining_sectors)
+
+# Update the factor levels for ggplot to respect the new order
+ordered_data <- ordered_data %>%
+  mutate(Sector_Name = factor(Sector_Name, levels = unique(ordered_data$Sector_Name)))
 
 # Convert reordered matrix back to a long format for ggplot
-heatmap_long_weighted <- as.data.frame(heatmap_data_weighted) %>%
-  mutate(Region = Risk_Index_Heat_AT$Region_Name[row_clusters_weighted$order],
-         Sector = Risk_Index_Heat_AT$Sector_Name[row_clusters_weighted$order]) %>%
+heatmap_long_weighted <- ordered_data %>%
   pivot_longer(cols = c(Exposure_Index, Vulnerability_Index, Risk_Index),
-               names_to = "Index_Type", values_to = "Value")
+               names_to = "Index_Type", values_to = "Value") %>%
+  mutate(Sector_Name = factor(Sector_Name, levels = unique(ordered_data$Sector_Name)))
 
 # Calculate min, median, and max for Value
 min_value <- min(heatmap_long_weighted$Value, na.rm = TRUE)
@@ -65,8 +78,9 @@ full_color_palette <- c(
   "#bd0026"  # Dark Red (High Risk)
 )
 
-# Define the heatmap with full color spectrum
-risk_heatmap <- ggplot(heatmap_long_weighted, aes(x = Region, y = Sector, fill = Value)) +
+# Define the Risk Heatmap
+risk_heatmap <- ggplot(heatmap_long_weighted %>% filter(Index_Type == "Risk_Index"),
+                       aes(x = Region_Name, y = Sector_Name, fill = Value)) +
   geom_tile(color = "white") +
   scale_fill_gradientn(
     colors = full_color_palette,
@@ -95,9 +109,9 @@ risk_heatmap <- ggplot(heatmap_long_weighted, aes(x = Region, y = Sector, fill =
     )
   )
 
-# Define Exposure Heatmap
-exposure_heatmap <- ggplot(heatmap_long_weighted %>% filter(Index_Type == "Exposure_Index"), 
-                           aes(x = Region, y = Sector, fill = Value)) +
+# Define the Exposure Heatmap
+exposure_heatmap <- ggplot(heatmap_long_weighted %>% filter(Index_Type == "Exposure_Index"),
+                           aes(x = Region_Name, y = Sector_Name, fill = Value)) +
   geom_tile(color = "white") +
   scale_fill_gradientn(
     colors = full_color_palette,
@@ -126,9 +140,9 @@ exposure_heatmap <- ggplot(heatmap_long_weighted %>% filter(Index_Type == "Expos
     )
   )
 
-# Define Vulnerability Heatmap
-vulnerability_heatmap <- ggplot(heatmap_long_weighted %>% filter(Index_Type == "Vulnerability_Index"), 
-                                aes(x = Region, y = Sector, fill = Value)) +
+# Define the Vulnerability Heatmap
+vulnerability_heatmap <- ggplot(heatmap_long_weighted %>% filter(Index_Type == "Vulnerability_Index"),
+                                aes(x = Region_Name, y = Sector_Name, fill = Value)) +
   geom_tile(color = "white") +
   scale_fill_gradientn(
     colors = full_color_palette,
@@ -157,13 +171,12 @@ vulnerability_heatmap <- ggplot(heatmap_long_weighted %>% filter(Index_Type == "
     )
   )
 
-# Display the new heatmaps
+# Display the heatmaps
 print(risk_heatmap)
 print(exposure_heatmap)
 print(vulnerability_heatmap)
 
-# Save the new heatmaps
+# Save the heatmaps
 ggsave("Outputs/Plots/AT_Risk_Heatmap.png", risk_heatmap, width = 10, height = 6, dpi = 800)
 ggsave("Outputs/Plots/AT_Exposure_Heatmap.png", exposure_heatmap, width = 10, height = 6, dpi = 800)
 ggsave("Outputs/Plots/AT_Vulnerability_Heatmap.png", vulnerability_heatmap, width = 10, height = 6, dpi = 800)
-
