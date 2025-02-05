@@ -96,4 +96,3 @@ writexl::write_xlsx(EMPL_shares_data,
              "/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/EMPL_shares_data.xlsx")
 
 return("Outputs/Data/EMPL_shares_data.xlsx")
-

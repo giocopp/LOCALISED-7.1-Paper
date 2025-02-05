@@ -140,6 +140,22 @@ Risk_Index <- Risk_Index |>
     )
   )
 
+
+Shares <- readxl::read_xlsx("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/EMPL_shares_data.xlsx") |> 
+  rename(Sector_ID = Sector) |> 
+  select(NUTS_ID, Sector_ID, Regional_Share)
+
+Shares
+
+Risk_Index <- Risk_Index |> 
+  left_join(
+    Shares,
+    by = c("NUTS_ID" = "NUTS_ID", "Sector_ID" = "Sector_ID")
+  ) |> 
+  rename(Manuf_Share = Regional_Share)
+
+write_xlsx(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.xlsx")
+write_csv(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.csv")
 write_xlsx(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_Index_Data.xlsx")
 write_csv(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_Index_Data.csv")
 
@@ -147,4 +163,3 @@ return("Outputs/Data/Vuln_Index_Data.xlsx")
 return("Outputs/Data/Vuln_Index_Data.csv")
 return("Outputs/Data/Risk_Index_Data.xlsx")
 return("Outputs/Data/Risk_Index_Data.csv")
-

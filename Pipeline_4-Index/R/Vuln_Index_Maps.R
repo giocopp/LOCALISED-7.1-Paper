@@ -36,7 +36,7 @@ Risk_Index <- Vuln_Index |>
     NUTS_ID, Sector_ID, Exposure_Index, Energy_Index, Labor_Index, 
     Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index, 
     Vulnerability_Index = Vulnerability_Index.x,  # Explicitly select from Vuln_Index
-    Risk_Index
+    Risk_Index, Manuf_Share
   )
 
 # Get Boundaries
@@ -178,79 +178,35 @@ create_map <- function(
   return(output_path)
 }
 
-# Example Usage
-# Create a map for the EU and sector "C"
-eu_map_path <- create_map(
-  data = mapping_sf,
-  region = "EU",
-  sector = "C",
-  variable = "Risk_Index",
-  variable_name = "Risk Index",
-  fixed_range = c(0, 1),
-  color_palette = "Purples"
-)
-#
-italy_map_path <- create_map(
-  data = mapping_sf,
-  region = "IT",
-  sector = "C",
-  variable = "Risk_Index",
-  variable_name = "Risk Index",
-  fixed_range = c(0, 1),
-  color_palette = "Purples"
-)
-#
-#
-### Vulnerability Maps
-#
-#
-# Example Usage
-# Create a map for the EU and sector "C"
-eu_map_path <- create_map(
-  data = mapping_sf,
-  region = "EU",
-  sector = "C",
-  variable = "Vulnerability_Index",
-  variable_name = "Vulnerability Index",
-  fixed_range = c(0, 1),
-  color_palette = "Blues"
-)
-#
-italy_map_path <- create_map(
-  data = mapping_sf,
-  region = "IT",
-  sector = "C",
-  variable = "Vulnerability_Index",
-  variable_name = "Vulnerability Index",
-  fixed_range = c(0, 1),
-  color_palette = "Blues"
-)
-#
-#
+### Usage
+### 
 
-### Exposure Maps
-#
-#
-# Example Usage
-# Create a map for the EU and sector "C"
-eu_map_path <- create_map(
-  data = mapping_sf,
-  region = "EU",
-  sector = "C",
-  variable = "Exposure_Index",
-  variable_name = "Exposure Index",
-  fixed_range = c(0, 1),
-  color_palette = "Reds"
+# Define the regions (or country codes) you want to map
+regions <- c("EU", "IT")  # You can add more codes as needed
+
+# Define the sector to map (in your examples it's "C")
+sector <- "C"
+
+# Define a list of mapping variables with their associated legend names, color palettes, and fixed ranges
+mapping_vars <- list(
+  Risk_Index = list(var_name = "Risk Index", palette = "Purples", fixed_range = c(0, 1)),
+  Vulnerability_Index = list(var_name = "Vulnerability Index", palette = "Blues", fixed_range = c(0, 1)),
+  Exposure_Index = list(var_name = "Exposure Index", palette = "Reds", fixed_range = c(0, 1))
 )
-#
-italy_map_path <- create_map(
-  data = mapping_sf,
-  region = "IT",
-  sector = "C",
-  variable = "Exposure_Index",
-  variable_name = "Exposure Index",
-  fixed_range = c(0, 1),
-  color_palette = "Reds"
-)
-#
-#
+
+# Loop over each region and each mapping variable to create and save maps
+for (reg in regions) {
+  for (var in names(mapping_vars)) {
+    var_info <- mapping_vars[[var]]
+    output_path <- create_map(
+      data = mapping_sf,
+      region = reg,
+      sector = sector,
+      variable = var,
+      variable_name = var_info$var_name,
+      fixed_range = var_info$fixed_range,
+      color_palette = var_info$palette
+    )
+    print(paste("Saved map for", reg, "with", var, "at", output_path))
+  }
+}
