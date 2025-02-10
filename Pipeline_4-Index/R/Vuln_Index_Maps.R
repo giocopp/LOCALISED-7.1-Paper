@@ -22,22 +22,21 @@ if (any(installed_libs == FALSE)) {
 invisible(lapply(libs, library, character.only = TRUE))
 
 # Read data
-Vuln_Index  <- readxl::read_xlsx("~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.xlsx") |>
-  select(NUTS_ID, Sector_ID, Vulnerability_Index)
+# Vuln_Index  <- readxl::read_xlsx("~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.xlsx")
 
 Risk_Index <- readxl::read_xlsx("Outputs/Data/Risk_Index_Data.xlsx")
 
-Risk_Index <- Vuln_Index |> 
-  left_join(
-    Risk_Index, 
-    by = c("NUTS_ID", "Sector_ID")
-  ) |>
-  select(
-    NUTS_ID, Sector_ID, Exposure_Index, Energy_Index, Labor_Index, 
-    Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index, 
-    Vulnerability_Index = Vulnerability_Index.x,  # Explicitly select from Vuln_Index
-    Risk_Index, Manuf_Share
-  )
+# Risk_Index <- Vuln_Index |> 
+#   left_join(
+#     Risk_Index, 
+#     by = c("NUTS_ID", "Sector_ID")
+#   ) |>
+#   select(
+#     NUTS_ID, Sector_ID, Exposure_Index, Energy_Index, Labor_Index, 
+#     Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index, 
+#     Vulnerability_Index = Vulnerability_Index.x,  # Explicitly select from Vuln_Index
+#     Risk_Index, Manuf_Share
+#   )
 
 # Get Boundaries
 nuts2_sf <- giscoR::gisco_get_nuts(
@@ -193,6 +192,8 @@ mapping_vars <- list(
   Vulnerability_Index = list(var_name = "Vulnerability Index", palette = "Blues", fixed_range = c(0, 1)),
   Exposure_Index = list(var_name = "Exposure Index", palette = "Reds", fixed_range = c(0, 1))
 )
+
+Risk_Index
 
 # Loop over each region and each mapping variable to create and save maps
 for (reg in regions) {

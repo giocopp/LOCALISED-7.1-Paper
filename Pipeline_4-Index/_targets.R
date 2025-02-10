@@ -42,5 +42,13 @@ list(
       source("R/Vuln_Index_Maps.R")$value # Output tracked file
     },
     format = "file"
+  ),
+  tar_target(
+    name = step4,
+    command = {
+      step2_file <- step2 # Input file from step2
+      source("R/Heatmaps.R")$value # Output tracked file
+    },
+    format = "file"
   )
 )

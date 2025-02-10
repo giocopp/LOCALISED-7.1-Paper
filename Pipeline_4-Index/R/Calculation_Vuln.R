@@ -111,7 +111,7 @@ weights <- weights / sum(weights)  # Normalize weights to sum to 1
 # Calculate the weighted geometric mean
 # Define columns and weights
 columns <- c("Exposure_Index", "Vulnerability_Index")  # Columns to include
-weights <- c(4, 3)  # Example weights: Exposure is more important than Vulnerability
+weights <- c(1, 1)  # Example weights: Exposure is more important than Vulnerability
 weights <- weights / sum(weights)  # Normalize weights to sum to 1
 
 # Calculate the RISK

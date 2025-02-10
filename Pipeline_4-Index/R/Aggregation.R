@@ -1,5 +1,5 @@
 # Set working directory
-setwd("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Weighting and Aggregation")
+setwd("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index")
 
 ### Install Necessary Packages ###
 remotes::install_github("eurostat/restatapi")
