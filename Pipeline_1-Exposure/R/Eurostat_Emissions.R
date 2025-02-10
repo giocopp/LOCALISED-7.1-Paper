@@ -55,11 +55,11 @@ indicator_df_f <- indicator_df |>
   ) 
 
 indicator_df_f <- indicator_df_f |> 
-  dplyr::filter(substr(Sector, 1, 1) == "C") |> 
-  dplyr::filter(!str_detect(NUTS_ID, "ZZ"))  
+  dplyr::filter(substr(Sector, 1, 1) == "C") 
 
 base_data <- readxl::read_excel("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/base_data.xlsx") |> 
-  dplyr::select(1, 3)
+  dplyr::select(1, 3) |> 
+  filter(nchar(NUTS_ID) == 2)
 
 indicator_df_f <- base_data |> 
   dplyr::left_join(
@@ -80,7 +80,7 @@ unique(Emissions_raw_data$Sector)
 # Step 1: Create a mapping table for aggregation
 sector_mapping <- data.frame(
   Original_Sector = c("C", "C10-C12", "C13-C15", "C16", "C17", "C18", "C19", "C20", "C21", "C22", "C23", "C24", "C25", "C26", "C27", "C28", "C29", "C30", "C31-C32", "C33"),
-  Aggregated_Sector = c("C", "C10-C12", "C13-C15", "C16-C18", "C16-C18", "C16-C18", "C19-C22", "C19-C22", "C19-C22", "C19-C22", "C23", "C24", "C25+C28-C30", "C26-C27", "C26-C27", "C25+C28-C30", "C25+C28-C30", "C25+C28-C30", "C31-C32", "C33")
+  Aggregated_Sector = c("C", "C10-C12", "C13-C15", "C16-C18", "C16-C18", "C16-C18", "C19-C20", "C19-C20", "C21-C22", "C21-C22", "C23", "C24", "C25+C28-C30", "C26-C27", "C26-C27", "C25+C28-C30", "C25+C28-C30", "C25+C28-C30", "C31-C32", "C33")
 )
 
 # Step 2: Map the original sectors to the aggregated sectors
@@ -94,6 +94,8 @@ aggregated_data <- Emissions_raw_data %>%
 
 Emissions_raw_data <- aggregated_data %>%
   rename(Sector = Aggregated_Sector, Emissions = Aggregated_Emissions)
+
+View(Emissions_raw_data)
 
 ### DOWNSCALE EMSSIONS
 
@@ -112,14 +114,16 @@ shares <- shares %>%
          Sector = as.character(Sector))
 
 # Filter emissions to keep only national-level data
-national_emissions <- emissions %>% filter(nchar(NUTS_ID) == 2)
-View(national_emissions)
+national_emissions <- emissions %>% 
+  filter(nchar(NUTS_ID) == 2)
 
 # Merge national emissions with regional shares
 regional_emissions <- national_emissions %>%
   left_join(shares, by = c("NUTS_ID" = "Country", "Sector" = "Sector")) %>%
   mutate(Regional_Emissions = Emissions * Regional_Share) %>%
   select(NUTS_ID = NUTS_ID.y, Sector, Emissions, Regional_Share, Regional_Emissions)
+
+View(regional_emissions)
 
 # Normalize emissions for Sector "C" (total manufacturing)
 # Define a function to normalize the emissions

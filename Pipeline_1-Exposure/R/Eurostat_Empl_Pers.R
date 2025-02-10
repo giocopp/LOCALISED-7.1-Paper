@@ -43,8 +43,12 @@ indicator_df_og <- restatapi::get_eurostat_data(
   exact_match = F,
   label = F,
   cflags = T,
-  keep_flags = T
+  keep_flags = T,
+  verbose=T
 )
+
+# EMP_LOC_NR
+# EMP_LOC_MFG_PC
 
 rm(list = setdiff(ls(), "indicator_df_og"))
 

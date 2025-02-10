@@ -23,6 +23,7 @@ invisible(lapply(libs, library, character.only = TRUE))
 
 # Read data
 regional_emiss <- readxl::read_xlsx("Outputs/Data/EXP_Data_index.xlsx")
+View(regional_emiss)
 
 # Get Boundaries
 nuts2_sf <- giscoR::gisco_get_nuts(
@@ -163,6 +164,16 @@ eu_map_path <- create_map(
   region = "EU",
   variable = "Exposure_Index",
   variable_name = "Emissions (Index)",
+  sector = "C19-C20",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  variable = "Exposure_Index",
+  variable_name = "Emissions (Index)",
   sector = "C",
   fixed_range = c(0, 1),
   color_palette = "Reds"
@@ -178,4 +189,3 @@ italy_map_path <- create_map(
   fixed_range = c(0, 1),
   color_palette = "Reds"
 )
-

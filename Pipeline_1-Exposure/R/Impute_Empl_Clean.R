@@ -12,6 +12,47 @@ library(VIM)
 # Load dataset and filter for relevant sectors
 empl_pers <- readxl::read_xlsx("Outputs/Data/EMPL_persons_raw_data.xlsx")
 
+View(empl_pers) # Some NUTS_ID have NA sectors:
+
+library(dplyr)
+
+# Identify NUTS_IDs that have complete sector information
+sector_reference <- empl_pers %>%
+  filter(!is.na(Sector)) %>%
+  select(NUTS_ID, Sector) %>%
+  distinct()
+
+# Identify NUTS_IDs with missing Sector
+nuts_with_na <- empl_pers %>%
+  filter(is.na(Sector)) %>%
+  select(NUTS_ID) %>%
+  distinct()
+
+# Get a reference NUTS_ID with a complete sector list
+reference_nuts_id <- sector_reference %>% 
+  pull(NUTS_ID) %>% 
+  unique() %>% 
+  first()  # Taking the first valid one
+
+# Get the sectors corresponding to the reference NUTS_ID
+reference_sectors <- sector_reference %>%
+  filter(NUTS_ID == reference_nuts_id) %>%
+  pull(Sector)
+
+# Expand and fill missing sectors for the NUTS_IDs that had NA
+filled_sectors <- nuts_with_na %>%
+  mutate(Sector = list(reference_sectors)) %>%
+  unnest(Sector)
+
+# Merge back into the original dataset
+empl_pers <- empl_pers %>%
+  filter(!is.na(Sector)) %>%
+  bind_rows(filled_sectors)
+
+# View the updated dataset
+View(empl_pers)
+
+
 # Inspect the structure of the data
 unique(empl_pers$NUTS_ID)
 
@@ -65,6 +106,9 @@ empl_pers_wide_final <- bind_cols(
 # Inspect the imputed dataset
 glimpse(empl_pers_wide_final)
 sum(is.na(empl_pers_wide_final))
+colSums(is.na(empl_pers_wide_final))
+
+View(empl_pers_wide_final)
 
 # Compare before and after for a sample sector (e.g., C10)
 # Summary statistics function
@@ -100,17 +144,16 @@ comparison_long <- comparison %>%
 options(scipen = 999)
 head(comparison_long)
 
-# Convert the wide-format data back to long format
 empl_pers_final <- empl_pers_wide_final %>%
   pivot_longer(
-    cols = -c(NUTS_ID, Time), # Keep these columns as is
-    names_to = "Sector",      # Column name for the sector variable
-    values_to = "Empl_pers"   # Column name for the employment values
-  )
+    cols = setdiff(names(empl_pers_wide_final), c("NUTS_ID", "Time", ".id")),  
+    names_to = "Sector",       
+    values_to = "Empl_pers"
+  ) %>%
+  filter(Sector != ".id") 
 
-EMPL_persons_imputed_data <- empl_pers_final
-
-# return(EMPL_persons_imputed_data)
+EMPL_persons_imputed_data <- empl_pers_final |> 
+  select(-Time, -.id)
 
 # Save the long-format data
 writexl::write_xlsx(EMPL_persons_imputed_data,
