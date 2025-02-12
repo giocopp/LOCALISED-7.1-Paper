@@ -55,6 +55,14 @@ list(
     name = step5,
     command = {
       step4_file <- step4 # Input file from step4
+      source("R/Emissions-Empl_Reg.R")$value # Outputs tracked plot files
+    },
+    format = "file"
+  ),
+  tar_target(
+    name = step6,
+    command = {
+      step4_file <- step4 # Input file from step4
       source("R/Exposure_Map_RegEmis.R")$value # Outputs tracked plot files
     },
     format = "file"

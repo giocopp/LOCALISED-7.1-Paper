@@ -22,7 +22,7 @@ if (any(installed_libs == FALSE)) {
 invisible(lapply(libs, library, character.only = TRUE))
 
 # Read data
-regional_emiss <- readxl::read_xlsx("Outputs/Data/EXP_Data_index.xlsx")
+regional_emiss <- readxl::read_xlsx("Outputs/Data/EXP_Data_index_Empl.xlsx")
 View(regional_emiss)
 
 # Get Boundaries
@@ -164,7 +164,27 @@ eu_map_path <- create_map(
   region = "EU",
   variable = "Exposure_Index",
   variable_name = "Emissions (Index)",
+  sector = "C24",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  variable = "Exposure_Index",
+  variable_name = "Emissions (Index)",
   sector = "C19-C20",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  variable = "Exposure_Index",
+  variable_name = "Emissions (Index)",
+  sector = "C21-C22",
   fixed_range = c(0, 1),
   color_palette = "Reds"
 )
@@ -179,7 +199,7 @@ eu_map_path <- create_map(
   color_palette = "Reds"
 )
 
-# Create a map for Italy and sector "C10"
+# Create a map for Italy and sector "C"
 italy_map_path <- create_map(
   data = mapping_sf,
   region = "IT",
@@ -189,3 +209,56 @@ italy_map_path <- create_map(
   fixed_range = c(0, 1),
   color_palette = "Reds"
 )
+
+### Reg Emiss Empl
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  variable = "Exposure_Index_Empl",
+  variable_name = "Emissions - Empl (Index)",
+  sector = "C24",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  variable = "Exposure_Index_Empl",
+  variable_name = "Emissions - Empl (Index)",
+  sector = "C19-C20",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  variable = "Exposure_Index_Empl",
+  variable_name = "Emissions - Empl (Index)",
+  sector = "C21-C22",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+
+eu_map_path <- create_map(
+  data = mapping_sf,
+  region = "EU",
+  variable = "Exposure_Index_Empl",
+  variable_name = "Emissions - Empl (Index)",
+  sector = "C",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+
+# Create a map for Italy and sector "C10"
+italy_map_path <- create_map(
+  data = mapping_sf,
+  region = "IT",
+  variable = "Exposure_Index_Empl",
+  variable_name = "Emissions - Empl (Index)",
+  sector = "C",
+  fixed_range = c(0, 1),
+  color_palette = "Reds"
+)
+

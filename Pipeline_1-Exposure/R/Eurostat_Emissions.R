@@ -173,7 +173,7 @@ Regional_emissions_data <- Regional_emissions_data_final |>
   dplyr::select(NUTS_ID, Sector, GHG_Emissions)
 
 Regional_emissions_index <- Regional_emissions_data_final |> 
-  dplyr::select(NUTS_ID, Sector, Exposure_Index)
+  dplyr::select(NUTS_ID, Sector, GHG_Emissions, Exposure_Index)
 
 # return(Regional_emissions_data_final)
 
@@ -188,5 +188,3 @@ writexl::write_xlsx(
 
 return("Outputs/Data/EXP_Data_raw.xlsx")
 return("Outputs/Data/EXP_Data_index.xlsx")
-
-

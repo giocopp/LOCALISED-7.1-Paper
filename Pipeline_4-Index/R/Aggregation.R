@@ -36,8 +36,10 @@ invisible(
 )
 
 ### Get data
-Exposure_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_1-Exposure/Outputs/Data/Exp_Data_index.xlsx") |> 
-  rename(Sector_ID = Sector)
+Exposure_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_1-Exposure/Outputs/Data/Exp_Data_index_Empl.xlsx") |> 
+  rename(Sector_ID = Sector) |> 
+  select(NUTS_ID, Sector_ID, Exposure_Index_Empl) |> 
+  rename(Exposure_Index = Exposure_Index_Empl)
 
 sum(is.na(Exposure_Index))
 
