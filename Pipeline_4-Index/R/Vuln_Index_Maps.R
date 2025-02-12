@@ -25,6 +25,7 @@ invisible(lapply(libs, library, character.only = TRUE))
 # Vuln_Index  <- readxl::read_xlsx("~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.xlsx")
 
 Risk_Index <- readxl::read_xlsx("Outputs/Data/Risk_Index_Data.xlsx")
+View(Risk_Index)
 
 # Risk_Index <- Vuln_Index |> 
 #   left_join(
@@ -181,33 +182,38 @@ create_map <- function(
 ### 
 
 # Define the regions (or country codes) you want to map
-regions <- c("EU", "IT")  # You can add more codes as needed
+regions <- c("EU")  # You can add more codes as needed
 
 # Define the sector to map (in your examples it's "C")
-sector <- "C"
+sector <- c("C", "C16-C18", "C19-C20", "C23", "C24", "C25+C28-C30")
 
 # Define a list of mapping variables with their associated legend names, color palettes, and fixed ranges
+# Replace your mapping_vars definition with:
 mapping_vars <- list(
-  Risk_Index = list(var_name = "Risk Index", palette = "Purples", fixed_range = c(0, 1)),
-  Vulnerability_Index = list(var_name = "Vulnerability Index", palette = "Blues", fixed_range = c(0, 1)),
-  Exposure_Index = list(var_name = "Exposure Index", palette = "Reds", fixed_range = c(0, 1))
+  Risk_Index_geo    = list(var_name = "Risk Index (Geometric)", palette = "Purples", fixed_range = c(0, 1)),
+  Vulnerability_Index = list(var_name = "Vulnerability Index", palette = "Blues", fixed_range = c(0, 1))
 )
 
-Risk_Index
+# And update your loop over regions/mapping variables to use these names:
+# Define the regions and sectors individually
+regions <- c("EU")  # or more region codes if needed
+sectors <- c("C", "C16-C18", "C19-C20", "C23", "C24", "C25+C28-C30")
 
-# Loop over each region and each mapping variable to create and save maps
+# Loop over each region, each sector, and each mapping variable
 for (reg in regions) {
-  for (var in names(mapping_vars)) {
-    var_info <- mapping_vars[[var]]
-    output_path <- create_map(
-      data = mapping_sf,
-      region = reg,
-      sector = sector,
-      variable = var,
-      variable_name = var_info$var_name,
-      fixed_range = var_info$fixed_range,
-      color_palette = var_info$palette
-    )
-    print(paste("Saved map for", reg, "with", var, "at", output_path))
+  for (sec in sectors) {
+    for (var in names(mapping_vars)) {
+      var_info <- mapping_vars[[var]]
+      output_path <- create_map(
+        data = mapping_sf,
+        region = reg,
+        sector = sec,                # Pass a single sector value
+        variable = var,              # e.g. "Risk_Index_linear", etc.
+        variable_name = var_info$var_name,
+        fixed_range = var_info$fixed_range,
+        color_palette = var_info$palette
+      )
+      print(paste("Saved map for", reg, "sector", sec, "with", var, "at", output_path))
+    }
   }
 }

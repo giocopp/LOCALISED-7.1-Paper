@@ -49,6 +49,7 @@ sum(is.na(Energy_Index))
 
 Labor_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Labor/Outputs/Data/Labor_Index.xlsx")
 
+View(Labor_Index)
 sum(is.na(Labor_Index))
 
 SupCh_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Supply Chain/Outputs/Data/SupCh_Index.xlsx")
@@ -77,10 +78,12 @@ Index_x <- Exposure_Index |>
   full_join(Tech_Index, by = c("NUTS_ID", "Sector_ID")) |>
   full_join(Finance_Index, by = c("NUTS_ID", "Sector_ID")) |>
   full_join(Inst_Index, by = c("NUTS_ID", "Sector_ID")) |> 
-  select(-c(13, 14, 15))
+  select(-c(13, 14, 15)) 
 
 Index_x <- Index_x |>
   filter(!(Sector_ID %in% c("C31-C32", "C33")))
+
+sum(is.na(Index_x))
 
 Metadata <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Metadata-Indicators.xlsx")
 
@@ -101,6 +104,7 @@ Index <- Index_x |>
 
 Index_select <- Index |>
   select(NUTS_ID, Sector_ID, ends_with("Index"))
+
 
 ### Save
 

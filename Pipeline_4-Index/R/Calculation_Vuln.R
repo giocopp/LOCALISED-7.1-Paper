@@ -55,16 +55,10 @@ Vuln_Index <- NZBC_Index %>%
   rowwise() %>%
   mutate(
     # Linear (arithmetic) aggregation: weighted average (adjusted for NA values)
-    Vulnerability_Index_linear = {
+    Vulnerability_Index = {
       vals <- c_across(all_of(vuln_cols))
       valid <- !is.na(vals)
       if (sum(valid) == 0) NA_real_ else sum(vals[valid] * vuln_weights[valid]) / sum(vuln_weights[valid])
-    },
-    # Geometric aggregation: weighted geometric mean (only if all valid values are > 0)
-    Vulnerability_Index_geo = {
-      vals <- c_across(all_of(vuln_cols))
-      valid <- !is.na(vals) & (vals > 0)
-      if (sum(valid) == 0) NA_real_ else exp(sum(vuln_weights[valid] * log(vals[valid])) / sum(vuln_weights[valid]))
     }
   ) %>% 
   ungroup()
@@ -74,10 +68,8 @@ Vuln_Index <- Vuln_Index %>%
   mutate(sector_group = if_else(Sector_ID == "C", "C", "other")) %>%
   group_by(sector_group) %>%
   mutate(
-    Vulnerability_Index_linear = 0.01 + (Vulnerability_Index_linear - min(Vulnerability_Index_linear, na.rm = TRUE)) /
-      (max(Vulnerability_Index_linear, na.rm = TRUE) - min(Vulnerability_Index_linear, na.rm = TRUE)) * (0.99 - 0.01),
-    Vulnerability_Index_geo = 0.01 + (Vulnerability_Index_geo - min(Vulnerability_Index_geo, na.rm = TRUE)) /
-      (max(Vulnerability_Index_geo, na.rm = TRUE) - min(Vulnerability_Index_geo, na.rm = TRUE)) * (0.99 - 0.01)
+    Vulnerability_Index = 0.01 + (Vulnerability_Index - min(Vulnerability_Index, na.rm = TRUE)) /
+      (max(Vulnerability_Index, na.rm = TRUE) - min(Vulnerability_Index, na.rm = TRUE)) * (0.99 - 0.01)
   ) %>%
   ungroup() %>%
   select(-sector_group)
@@ -96,10 +88,10 @@ Risk_Index <- Vuln_Index %>%
   rowwise() %>%
   mutate(
     # Linear aggregation using Exposure_Index and Vulnerability_Index_linear
-    Risk_Index_linear = Exposure_Index * risk_weights[1] + Vulnerability_Index_linear * risk_weights[2],
+    Risk_Index_linear = Exposure_Index * risk_weights[1] + Vulnerability_Index * risk_weights[2],
     # Geometric aggregation using Exposure_Index and Vulnerability_Index_geo
-    Risk_Index_geo = if_else(Exposure_Index > 0 & Vulnerability_Index_geo > 0,
-                             exp(risk_weights[1] * log(Exposure_Index) + risk_weights[2] * log(Vulnerability_Index_geo)),
+    Risk_Index_geo = if_else(Exposure_Index > 0 & Vulnerability_Index > 0,
+                             exp(risk_weights[1] * log(Exposure_Index) + risk_weights[2] * log(Vulnerability_Index)),
                              NA_real_)
   ) %>%
   ungroup()
