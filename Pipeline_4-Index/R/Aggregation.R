@@ -41,35 +41,22 @@ Exposure_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_1-Exposure/
   select(NUTS_ID, Sector_ID, Exposure_Index_Empl) |> 
   rename(Exposure_Index = Exposure_Index_Empl)
 
-sum(is.na(Exposure_Index))
-
 Energy_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Energy/Outputs/Data/Energy_Data_Index.xlsx")
-
-sum(is.na(Energy_Index))
 
 Labor_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Labor/Outputs/Data/Labor_Index.xlsx")
 
-View(Labor_Index)
-sum(is.na(Labor_Index))
-
 SupCh_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Supply Chain/Outputs/Data/SupCh_Index.xlsx")
 
-sum(is.na(SupCh_Index))
 
 Tech_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Technology/Outputs/Data/Tech_Index.xlsx")
 
-sum(is.na(Tech_Index))
-
 Finance_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Finance/Outputs/Data/Finance_Index.xlsx")
-
-sum(is.na(Finance_Index))
 
 Inst_Index <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Institutions/Outputs/Data/Inst_Index.xlsx") |> 
   select(-1)
 
-sum(is.na(Inst_Index))
-
 ### Merge
+View(Finance_Index)
 
 Index_x <- Exposure_Index |>
   full_join(Energy_Index, by = c("NUTS_ID", "Sector_ID")) |>

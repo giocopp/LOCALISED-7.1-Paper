@@ -25,7 +25,6 @@ invisible(lapply(libs, library, character.only = TRUE))
 # Vuln_Index  <- readxl::read_xlsx("~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Vuln_Index_Data.xlsx")
 
 Risk_Index <- readxl::read_xlsx("Outputs/Data/Risk_Index_Data.xlsx")
-View(Risk_Index)
 
 # Risk_Index <- Vuln_Index |> 
 #   left_join(
@@ -190,8 +189,8 @@ sector <- c("C", "C16-C18", "C19-C20", "C23", "C24", "C25+C28-C30")
 # Define a list of mapping variables with their associated legend names, color palettes, and fixed ranges
 # Replace your mapping_vars definition with:
 mapping_vars <- list(
-  Risk_Index_geo    = list(var_name = "Risk Index (Geometric)", palette = "Purples", fixed_range = c(0, 1)),
-  Vulnerability_Index = list(var_name = "Vulnerability Index", palette = "Blues", fixed_range = c(0, 1))
+  Risk_Index_geo = list(var_name = "Risk Index (Geometric)", palette = "Purples", fixed_range = c(0, 1)),
+  Risk_Index_linear = list(var_name = "Risk Index (Linear)", palette = "Purples", fixed_range = c(0, 1))
 )
 
 # And update your loop over regions/mapping variables to use these names:

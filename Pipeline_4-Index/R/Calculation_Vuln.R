@@ -13,7 +13,7 @@ invisible(lapply(libs, library, character.only = TRUE))
 
 
 ## Read and join input data
-Index_s <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Weighting and Aggregation/Outputs/Data/Index_Data_Select.xlsx") %>% 
+Index_s <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Pipeline_2-Vulnerability/Weighting and Aggregation/Outputs/Data/Index_Data.xlsx") %>% 
   select(NUTS_ID, Sector_ID, everything())
 
 sector_name_map <- c(
@@ -29,20 +29,20 @@ sector_name_map <- c(
   "C25+C28-C30" = "Fabricated Metals, Machinery, Vehicles and Transport Equipment"
 )
 
+View(Index_s)
+
 base_data <- read_excel("~/Desktop/LOCALISED-7.1-Paper/Base Data/base_data_plus.xlsx") %>% 
   select(CNTR_CODE, NUTS_ID, NUTS_NAME) %>% 
   filter(nchar(NUTS_ID) > 2)
 
-NZBC_Index <- Index_s %>% 
+Index_s <- Index_s %>% 
   left_join(base_data, by = "NUTS_ID") %>%
   rename(Region_Name = NUTS_NAME, Country = CNTR_CODE) %>% 
-  mutate(Sector_Name = recode(Sector_ID, !!!sector_name_map)) %>% 
-  select(Country, NUTS_ID, Region_Name, Sector_ID, Sector_Name, 
-         Exposure_Index, Energy_Index, Labor_Index, Sup_Ch_Index, Tech_Index, Finance_Index, Inst_Index)
+  mutate(Sector_Name = recode(Sector_ID, !!!sector_name_map))
 
-# Write the joined index data
-write_xlsx(NZBC_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/NZBC_Index_Data.xlsx")
-write_csv(NZBC_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/NZBC_Index_Data.csv")
+# # Write the joined index data
+# write_xlsx(NZBC_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/NZBC_Index_Data.xlsx")
+# write_csv(NZBC_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/NZBC_Index_Data.csv")
 
 
 ## Vulnerability Index Calculation
@@ -51,7 +51,7 @@ vuln_cols <- c("Energy_Index", "Labor_Index", "Sup_Ch_Index", "Tech_Index", "Fin
 vuln_weights <- rep(1, length(vuln_cols))
 vuln_weights <- vuln_weights / sum(vuln_weights)
 
-Vuln_Index <- NZBC_Index %>%
+Vuln_Index <- Index_s %>%
   rowwise() %>%
   mutate(
     # Linear (arithmetic) aggregation: weighted average (adjusted for NA values)
@@ -96,35 +96,36 @@ Risk_Index <- Vuln_Index %>%
   ) %>%
   ungroup()
 
-# Normalize the risk indices by sector group ("C" vs others)
+# Add this helper function once before your pipeline
+safe_rescale <- function(x, to = c(0.01, 0.99)) {
+  if(all(is.na(x))) return(x)
+  scales::rescale(x, to = to, from = range(x, na.rm = TRUE))
+}
+
+# Then update your normalization pipeline:
 Risk_Index <- Risk_Index %>% 
   mutate(sector_group = if_else(Sector_ID == "C", "C", "other")) %>%
   group_by(sector_group) %>%
   mutate(
-    Risk_Index_linear = 0.01 + (Risk_Index_linear - min(Risk_Index_linear, na.rm = TRUE)) /
-      (max(Risk_Index_linear, na.rm = TRUE) - min(Risk_Index_linear, na.rm = TRUE)) * (0.99 - 0.01),
-    Risk_Index_geo = 0.01 + (Risk_Index_geo - min(Risk_Index_geo, na.rm = TRUE)) /
-      (max(Risk_Index_geo, na.rm = TRUE) - min(Risk_Index_geo, na.rm = TRUE)) * (0.99 - 0.01)
+    Risk_Index_linear = safe_rescale(Risk_Index_linear, to = c(0.01, 0.99)),
+    Risk_Index_geo    = safe_rescale(Risk_Index_geo, to = c(0.01, 0.99))
   ) %>%
   ungroup() %>%
   select(-sector_group)
 
-# Read and join the shares data
-Shares <- read_excel("/Users/giocopp/Desktop/LOCALISED-7.1-Paper/Base Data/EMPL_shares_data.xlsx") %>% 
-  rename(Sector_ID = Sector) %>% 
-  select(NUTS_ID, Sector_ID, Regional_Share)
-
-Risk_Index <- Risk_Index %>% 
-  left_join(Shares, by = c("NUTS_ID", "Sector_ID")) %>% 
-  rename(Manuf_Share = Regional_Share)
+Risk_Index <- Risk_Index |> 
+  select(NUTS_ID, Region_Name, Country, Sector_ID, Sector_Name, everything()) |> 
+  select(-Risk_Index_linear) |> 
+  rename(Risk_Index = Risk_Index_geo)
 
 # Write the risk index outputs
-write_xlsx(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_Index_Data.xlsx")
-write_csv(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_Index_Data.csv")
-
+write_xlsx(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_MANUF_Index.xlsx")
+write_csv(Risk_Index, "~/Desktop/LOCALISED-7.1-Paper/Pipeline_4-Index/Outputs/Data/Risk_MANUF_Index_Data.csv")
 
 ## (Optional) Print output file paths
 return("Outputs/Data/Vuln_Index_Data.xlsx")
 return("Outputs/Data/Vuln_Index_Data.csv")
-return("Outputs/Data/Risk_Index_Data.xlsx")
-return("Outputs/Data/Risk_Index_Data.csv")
+return("Outputs/Data/Risk_MANUF_Index.xlsx")
+return("Outputs/Data/Risk_MANUF_Index_Data.csv")
+
+

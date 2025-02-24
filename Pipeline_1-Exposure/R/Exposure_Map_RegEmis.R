@@ -26,11 +26,40 @@ regional_emiss <- readxl::read_xlsx("Outputs/Data/EXP_Data_index_Empl.xlsx")
 View(regional_emiss)
 
 # Get Boundaries
+overseas_codes <- c("FRY", "NO0B")
+
 nuts2_sf <- giscoR::gisco_get_nuts(
   nuts_level = "2",
   resolution = "3",
   year = "2021"
-)
+) |> 
+  filter(!stringr::str_sub(NUTS_ID, 1, 3) %in% overseas_codes) |> 
+  filter(!stringr::str_sub(NUTS_ID, 1, 4) %in% overseas_codes)
+
+st_write(nuts2_sf, "~/Desktop/NUTS2_2021.geojson", driver = "GeoJSON", delete_dsn = TRUE)
+
+# # Load required libraries
+# library(leaflet)
+# library(sf)
+# 
+# # Load the GeoJSON file
+# nuts2_sf <- st_read("~/Desktop/NUTS2_2021.geojson")
+# 
+# # Create a Leaflet map
+# map <- leaflet(nuts2_sf) %>%
+#   addTiles() %>%  # Add OpenStreetMap tiles
+#   addPolygons(
+#     color = "blue",
+#     weight = 1,
+#     fillOpacity = 0.3,
+#     popup = ~NAME_LATN  # Change based on available attributes
+#   )
+# 
+# # Save as an HTML file
+# htmlwidgets::saveWidget(map, "~/Desktop/NUTS2_2021.geojson", selfcontained = TRUE)
+# 
+# # Display the map in R
+# map
 
 countries_sf <- giscoR::gisco_get_countries(
   resolution = "3",
